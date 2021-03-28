@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { connectToApi, selectApiStatus } from "./apiStatusSlice";
 
 const ApiStatus = () => {
-  const [apiStatus, setApiStatus] = useState(false);
+  const dispatch = useDispatch();
+  const isOnline = useSelector(selectApiStatus)
+
   useEffect(() => {
-    (async () => {
-			const url = process.env.REACT_APP_API_URL;
-      const { alive } = await (await fetch(`${url}/api/health`)).json();
-      setApiStatus(alive)
-    })();
-  }, [])
+    if (!isOnline) {
+      dispatch(connectToApi)
+    }
+  }, [dispatch, isOnline])
+
   return (
-    <div className={`flex justify-center items-center shadow-lg py-4 w-24 rounded-lg bg-${apiStatus ? "green" : "red"}-500`}>
-      <h1>Api {apiStatus ? "UP" : "DOWN"}</h1>
+    <div className={`flex justify-center items-center shadow-lg py-4 w-24 rounded-lg bg-${isOnline? "green" : "red"}-500`}>
+      <h1>Api {isOnline? "UP" : "DOWN"}</h1>
     </div>
   );
 }
