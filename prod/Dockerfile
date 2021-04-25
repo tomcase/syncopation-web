@@ -3,11 +3,11 @@ FROM node:14.1.0-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ARG REACT_APP_API_URL
-COPY package.json ./
-COPY yarn.lock ./
+COPY ../package.json ./
+COPY ../yarn.lock ./
 RUN yarn --silent
 RUN yarn add react-scripts@3.4.1 -g --silent
-COPY . ./
+COPY ../ ./
 RUN REACT_APP_API_URL=${REACT_APP_API_URL} NODE_ENV=${NODE_ENV} yarn build
 
 # production environment
