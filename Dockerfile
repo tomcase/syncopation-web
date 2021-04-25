@@ -5,7 +5,7 @@ ARG REACT_APP_API_URL
 COPY package.json ./
 COPY yarn.lock ./
 RUN yarn --network-timeout 600000 
-RUN yarn add react-scripts@3.4.1 -g 
+RUN yarn global add react-scripts@4.0.3
 COPY . ./
 RUN REACT_APP_API_URL=${REACT_APP_API_URL} NODE_ENV=production yarn build
 
