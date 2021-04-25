@@ -7,9 +7,8 @@ COPY yarn.lock ./
 RUN yarn --network-timeout 600000 
 RUN yarn add react-scripts@3.4.1 -g 
 COPY . ./
-RUN REACT_APP_API_URL=${REACT_APP_API_URL} NODE_ENV=${NODE_ENV} yarn build
+RUN REACT_APP_API_URL=${REACT_APP_API_URL} NODE_ENV=production yarn build
 
-# production environment
 FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
